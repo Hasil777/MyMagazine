@@ -1,0 +1,84 @@
+asgiref==3.6.0
+crispy-tailwind==0.5.0
+Django==4.2.1
+django-crispy-forms==2.0
+package-name==0.1
+Pillow==9.5.0
+sqlparse==0.4.4
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/news.css'%}">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <header class="text-gray-600 body-font">
+      <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        <a class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center mb-4 md:mb-0">
+          <img src="{% static 'images/Accounting-Logo-by-Acongraphic-27.jpg'%}" width="200px" alt="">
+          <span class="ml-3 text-xl">Vavilon</span>
+        </a>
+      </div>
+    </header>
+    
+    <div class="hamburger-menu">
+        <input id="menu__toggle" type="checkbox" />
+        <label class="menu__btn" for="menu__toggle">
+        <span></span>  
+        </label>  <ul class="menu__box">
+          <li><a class="menu__item" href="{% url 'Home'%}">Home</a></li>
+          <li><a class="menu__item" href="{% url 'news'%}">News</a></li>
+          <li><a class="menu__item" href="{% url 'Help'%}">Help</a></li>
+        </ul>
+    </div>
+    <section class="text-gray-600 body-font">
+        <div class="container px-5 py--4 mx-auto">
+          <div class="flex flex-col">
+            <div class="h-1 bg-gray-200 rounded overflow-hidden">
+              <div class="w-24 h-full bg-indigo-500"></div>
+            </div>
+            <div class="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
+              <img src="{% static 'images/trud.jpg'%}" width="100px" alt="">
+              <div class="container px-50 py-4 mx-auto flex items-center md:flex-row flex-col">
+                <div class="flex flex-col md:pr-10 md:mb-0 mb-6 pr-0 w-full md:w-auto md:text-left text-center">
+                
+                </div>
+                <div class="flex md:ml-auto md:mr-0 mx-auto items-center flex-shrink-0 space-x-4">
+                </div>
+            </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
+            {%for post in posts%} 
+            <div class="p-4 md:w-1/3 sm:mb-0 mb-6">
+              <div class="rounded-lg h-64 overflow-hidden">
+                <img alt="content" class="object-cover object-center h-full w-full" src="{{post.image.url}}">
+              </div>
+              <h2 class="text-xl font-medium title-font text-gray-900 mt-5">{{post.name}}</h2>
+              <p class="text-base leading-relaxed mt-2">{{post.content}}</p>
+              <a class="text-indigo-500 inline-flex items-center mt-3" href="{% url 'homeDetail' post.pk%}">More
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+    </section>
+  
+</body>
+</html>
+<form method="post">
+        {{ form|crispy }}
+        <p>
+            <input  type="submit" value="Отправить">
+        </p>
+        {%csrf_token%}
+    </form>
